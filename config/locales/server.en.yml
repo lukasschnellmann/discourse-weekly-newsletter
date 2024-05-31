@@ -1,1 +1,4 @@
 en:
+  site_settings:
+    weekly_newsletter_enabled: "Enable Weekly Newsletter plugin"
+    weekly_newsletter_day: "The day on which the weekly newsletter is sent out"

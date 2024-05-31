@@ -1,4 +1,16 @@
-TODO_plugin_name:
-  plugin_name_enabled:
+plugins:
+  weekly_newsletter_enabled:
     default: false
+    client: true
+  weekly_newsletter_day:
+    type: enum
+    choices:
+      - Monday
+      - Tuesday
+      - Wednesday
+      - Thursday
+      - Friday
+      - Saturday
+      - Sunday
+    default: Monday
     client: true

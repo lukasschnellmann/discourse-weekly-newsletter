@@ -1,0 +1,184 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Newsletter</title>
+  <style>
+    * {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    a {
+      color: #0088cc;
+      text-decoration: none;
+    }
+
+    .header {
+      margin: 1em 0;
+      width: 400px;
+    }
+
+    .wrapper {
+      max-width: 800px;
+      margin: 3em auto 0 auto;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 1em;
+    }
+
+    .list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .list-item {
+      padding: 1em;
+      background: #eee;
+      border-radius: 8px;
+    }
+
+    .heading {
+      display: flex;
+      gap: 1em;
+      justify-content: space-between;
+      margin-bottom: 1.25em;
+      padding-bottom: 0.25em;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .heading h1 {
+      margin: 0;
+      font-size: 1.5em;
+    }
+
+    .title > div {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.33em;
+      margin-bottom: 0.5em;
+    }
+
+    .category-color {
+      width: 10px;
+      height: 10px;
+    }
+
+    .category {
+      font-size: 13px;
+      color: #646464;
+    }
+
+    .post-link {
+      text-decoration: none;
+      color: #000;
+    }
+
+    .post-link:hover {
+      text-decoration: underline;
+    }
+
+    .timestamp {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.1em;
+    }
+
+    .date, .time {
+      white-space: nowrap;
+      font-size: 1.1em;
+      color: #8f8f8f;
+    }
+
+    .answer {
+      display: flex;
+      gap: 0.25em;
+      margin-bottom: 0.25em;
+    }
+
+    .connector {
+      width: 15px;
+      height: 15px;
+      border-left: 1px solid #aaa;
+      border-top: 1px solid #aaa;
+      border-radius: 30% 0 0 0;
+      margin-left: 20px;
+      align-self: flex-end;
+    }
+
+    .content {
+      display: flex;
+      align-items: center;
+      font-size: 0.85em;
+      color: #646464;
+    }
+
+    .content > p {
+      margin: 0;
+      white-space: nowrap;
+    }
+
+    .avatar, .avatar_sm {
+      border-radius: 50%;
+      margin-right: 0.5em;
+    }
+
+    .author {
+      display: flex;
+      align-items: center;
+    }
+
+    .name {
+      font-size: 1.1em;
+      font-weight: bold;
+    }
+
+    .read-more {
+      float: right;
+      background-color: #b70000;
+      padding: 5px 10px;
+      border-radius: 5px;
+      color: white;
+      text-decoration: none;
+    }
+
+    .read-more:hover {
+      background-color: #cc0000;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="header">
+      <img src="<%= @logo_data_url %>" alt="GEOWebforum" height="60">
+    </div>
+    <div class="list">
+      <% @posts.each do |post| %>
+        <div class="list-item">
+          <div class="heading">
+            <div class="title">
+              <h1><a class="post-link" href="<%= "#{@base_url}/t/#{post.topic.slug}/#{post.topic.id}/#{post.post_number}" %>"><%= post.topic.title %></a></h1>
+              <div>
+                <span class="category-color" style="background: #<%= post.topic.category.color %>"></span>
+                <span class="category"><%= post.topic.category.name %></span>
+              </div>
+            </div>
+            <div class="timestamp">
+              <span class="date"><%= post.created_at.strftime("%d.%m.%Y") %></span>
+              <span class="time"><%= post.created_at.strftime("%H:%M") %></span>
+            </div>
+          </div>
+          <!-- Answer -->
+          <div class="author">
+            <img class="avatar" src="<%= "http:" + post.user.avatar_template_url.gsub("{size}", "40") %>" alt="avatar" width="40" height="40">
+            <span class="name"><%= post.user.name.present? ? post.user.name : post.user.username %></span>
+          </div>
+          <%= post.cooked.html_safe %>
+          <a class="read-more" href="">Weiterlesen</a>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</body>
+</html>

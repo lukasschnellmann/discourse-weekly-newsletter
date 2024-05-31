@@ -1,0 +1,4 @@
+en:
+  site_settings:
+    weekly_newsletter_enabled: "Wöchentlichen Newsletter-Plugin aktivieren"
+    weekly_newsletter_day: "Der Tag, an dem der wöchentliche Newsletter verschickt wird"
