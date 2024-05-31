@@ -1,4 +1,4 @@
-import { withPluginApi } from 'discourse/lib/plugin-api'
+import { withPluginApi } from 'discourse/lib/plugin-api';
 
 export default {
   name: 'receive-newsletter',
@@ -7,11 +7,11 @@ export default {
       api.modifyClass('controller:preferences/emails', {
         actions: {
           save () {
-            this.get('saveAttrNames').push('custom_fields')
-            this._super()
+            this.get('saveAttrNames').push('custom_fields');
+            this._super();
           }
         }
-      })
-    })
+      });
+    });
   }
-}
+};
