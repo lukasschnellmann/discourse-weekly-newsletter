@@ -9,7 +9,9 @@ class ::WeeklyNewsletterMailer < ActionMailer::Base
     @base_url = Discourse.base_url
     @current_host = Discourse.current_hostname
     
-    img = File.open("/home/lukas/geowebforum/plugins/weekly-newsletter/app/mailers/geowebforum_logo.svg")
+    img = File.open(
+      "/home/lukas/geowebforum/plugins/weekly-newsletter/app/mailers/geowebforum_logo.svg"
+    )
     img_base64 = Base64.strict_encode64(img.read)
     @logo_data_url = "data:image/svg+xml;base64,#{img_base64}"
 

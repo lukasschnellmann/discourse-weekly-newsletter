@@ -27,7 +27,9 @@ after_initialize do
       daily at: 3.hours
 
       def execute(args)
-        return if Time.zone.now.strftime("%A").downcase != SiteSetting.weekly_newsletter_day.downcase
+        current_day = Time.zone.now.strftime("%A").downcase
+        newsletter_day = SiteSetting.weekly_newsletter_day.downcase
+        return if current_day != newsletter_day
 
         # initialize logger
         Rails.logger = Logger.new(STDOUT)
@@ -38,7 +40,9 @@ after_initialize do
 
         # check if there are any posts
         if posts.empty?
-          Rails.logger.info "Not sending newsletter: No recently created posts found for newsletter"
+          Rails.logger.info(
+            "Not sending newsletter: No recently created posts found for newsletter"
+          )
           return
         end
 
