@@ -27,13 +27,13 @@ after_initialize do
       daily at: 3.hours
 
       def execute(args)
-        current_day = Time.zone.now.strftime("%A").downcase
-        newsletter_day = SiteSetting.weekly_newsletter_day.downcase
-        return if current_day != newsletter_day
+        # current_day = Time.zone.now.strftime("%A").downcase
+        # newsletter_day = SiteSetting.weekly_newsletter_day.downcase
+        # return if current_day != newsletter_day
 
         # initialize logger
         Rails.logger = Logger.new(STDOUT)
-        Rails.logger.info "Weekly Newsletter job started"
+        Rails.logger.info "Weekly Newsletter job running..."
 
         # get all posts created in the last week
         posts = Post.where("posts.created_at >= ?", 1.week.ago)
