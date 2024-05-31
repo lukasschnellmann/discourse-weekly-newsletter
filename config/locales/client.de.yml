@@ -1,4 +1,5 @@
-en:
+de:
   js:
     weekly_newsletter:
+      receive_emails_label: "Wöchentlicher Newsletter"
       receive_emails: "Ich möchte wöchentlich einen Newsletter per E-Mail erhalten"
