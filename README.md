@@ -1,4 +1,4 @@
-# **Plugin Name** Plugin
+# **Weekly Newsletter** Plugin
 
 **Plugin Summary**
 
