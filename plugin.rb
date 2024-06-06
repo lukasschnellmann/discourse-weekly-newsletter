@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# name: weekly-newsletter
+# name: discourse-weekly-newsletter
 # about: A plugin to send weekly newsletters on a specific time and day of the week
 # meta_topic_id: N/A
 # version: 0.1
