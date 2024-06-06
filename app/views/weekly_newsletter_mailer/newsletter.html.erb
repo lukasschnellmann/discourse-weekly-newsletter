@@ -178,7 +178,7 @@
           </div>
           <div class="content">
             <%= post.cooked.truncate(400, omission: '…').html_safe %>
-            <a class="read-more" href="<%= "#{@base_url}/t/#{post.topic.slug}/#{post.topic.id}/#{post.post_number}" %>">[weiterlesen]</a>
+            <a class="read-more" href="<%= "#{@base_url}/t/#{post.topic.slug}/#{post.topic.id}/#{post.post_number}" %>">weiterlesen</a>
           </div>
         </div>
       <% end %>
