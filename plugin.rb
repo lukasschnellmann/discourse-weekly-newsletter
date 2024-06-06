@@ -27,9 +27,9 @@ after_initialize do
       daily at: 3.hours
 
       def execute(args)
-        # current_day = Time.zone.now.strftime("%A").downcase
-        # newsletter_day = SiteSetting.weekly_newsletter_day.downcase
-        # return if current_day != newsletter_day
+        current_day = Time.zone.now.strftime("%A").downcase
+        newsletter_day = SiteSetting.weekly_newsletter_day.downcase
+        return if current_day != newsletter_day
 
         # initialize logger
         Rails.logger = Logger.new(STDOUT)
