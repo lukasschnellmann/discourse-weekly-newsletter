@@ -1,17 +1,17 @@
-import { withPluginApi } from 'discourse/lib/plugin-api';
+import { withPluginApi } from "discourse/lib/plugin-api";
 
 export default {
-  name: 'receive-newsletter',
-  initialize () {
-    withPluginApi('0.8.22', api => {
-      api.modifyClass('controller:preferences/emails', {
+  name: "receive-newsletter",
+  initialize() {
+    withPluginApi("0.8.22", (api) => {
+      api.modifyClass("controller:preferences/emails", {
         actions: {
-          save () {
-            this.get('saveAttrNames').push('custom_fields');
+          save() {
+            this.get("saveAttrNames").push("custom_fields");
             this._super();
-          }
-        }
+          },
+        },
       });
     });
-  }
+  },
 };
