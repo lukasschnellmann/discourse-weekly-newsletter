@@ -143,7 +143,7 @@
 <body>
   <div class="wrapper">
     <div class="header">
-      <h1>Neue Beiträge dieser Woche</h1>
+      <h1>Neue Beiträge der letzten Woche</h1>
       <div class="logo">
         <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 87.015152 12.945618">
           <g stroke-width=".264583" aria-label="GEOWebforum" font-family="Quicksand" font-size="10.9361" style="-inkscape-font-specification:'Courier New, Normal'">
@@ -177,14 +177,14 @@
             <span class="name"><%= post.user.name.present? ? post.user.name : post.user.username %></span>
           </div>
           <div class="content">
-            <%= post.cooked.truncate(20, omission: '…').html_safe %>
+            <%= post.cooked.truncate(400, omission: '…').html_safe %>
             <a class="read-more" href="<%= "#{@base_url}/t/#{post.topic.slug}/#{post.topic.id}/#{post.post_number}" %>">[weiterlesen]</a>
           </div>
         </div>
       <% end %>
     </div>
     <div class="unsubscribe">
-      Ändere <a class="unsubscribe-link" href="<%= "#{@base_url}/u/#{@user.username}/preferences/emails" %>">deine E-Mail Einstellungen</a>, um dieses E-Mail nicht mehr zu erhalten.
+      Ändere <a class="unsubscribe-link" href="<%= "#{@base_url}/u/#{@user.username}/preferences/emails" %>">deine E-Mail-Einstellungen</a>, um dieses E-Mail nicht mehr zu erhalten.
     </div>
     <div class="signature">
       Mit freundlichen Grüssen<br>
