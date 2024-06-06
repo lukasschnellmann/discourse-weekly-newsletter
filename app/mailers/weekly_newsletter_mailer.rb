@@ -10,7 +10,7 @@ class ::WeeklyNewsletterMailer < ActionMailer::Base
     @current_host = Discourse.current_hostname
 
     mail(to: @user.email, subject: "GEOWebforum: Beiträge der letzten Woche") do |format|
-      format.html { render 'newsletter' }
+      format.html { render "newsletter" }
     end
   end
 end

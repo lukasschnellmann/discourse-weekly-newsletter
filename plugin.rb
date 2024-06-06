@@ -16,10 +16,10 @@ end
 
 require_relative "lib/weekly_newsletter/engine"
 
-DiscoursePluginRegistry.serialized_current_user_fields << 'receive_newsletter'
+DiscoursePluginRegistry.serialized_current_user_fields << "receive_newsletter"
 
 after_initialize do
-  User.register_custom_field_type 'receive_newsletter', :boolean
+  User.register_custom_field_type "receive_newsletter", :boolean
   register_editable_user_custom_field :receive_newsletter
 
   module ::Jobs
@@ -41,21 +41,23 @@ after_initialize do
         # check if there are any posts
         if posts.empty?
           Rails.logger.info(
-            "Not sending newsletter: No recently created posts found for newsletter"
+            "Not sending newsletter: No recently created posts found for newsletter",
           )
           return
         end
 
         # send the newsletter to all users who want to receive it
-        User.where('id > 0').find_each do |user|
-          next if not user.custom_fields[:receive_newsletter]
+        User
+          .where("id > 0")
+          .find_each do |user|
+            next if not user.custom_fields[:receive_newsletter]
 
-          begin
-            WeeklyNewsletterMailer.newsletter(user, posts).deliver_now
-          rescue => e
-            Rails.logger.error "Error sending weekly newsletter: #{e.message}"
+            begin
+              WeeklyNewsletterMailer.newsletter(user, posts).deliver_now
+            rescue => e
+              Rails.logger.error "Error sending weekly newsletter: #{e.message}"
+            end
           end
-        end
       end
     end
   end
