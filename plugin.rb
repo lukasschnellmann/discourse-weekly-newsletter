@@ -28,9 +28,7 @@ after_initialize do
       def execute(args)
         # initialize logger
         Rails.logger = Logger.new(STDOUT)
-
         Rails.logger.info "Weekly Newsletter job running..."
-        Rails.logger.info Rails.application.config.action_mailer.smtp_settings
 
         current_day = Time.zone.now.strftime("%A").downcase
         newsletter_day = SiteSetting.weekly_newsletter_day.downcase
