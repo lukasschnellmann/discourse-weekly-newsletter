@@ -2,10 +2,9 @@
 
 # name: discourse-weekly-newsletter
 # about: A plugin to send weekly newsletters on a specific time and day of the week
-# meta_topic_id: N/A
 # version: 0.1
 # authors: Lukas Schnellmann
-# url: N/A
+# url: https://github.com/lukasschnellmann/discourse-weekly-newsletter
 # required_version: 2.7.0
 
 enabled_site_setting :weekly_newsletter_enabled
@@ -27,6 +26,9 @@ after_initialize do
       daily at: 3.hours
 
       def execute(args)
+        puts "Weekly Newsletter job running..."
+        puts Rails.application.config.action_mailer.smtp_settings
+
         current_day = Time.zone.now.strftime("%A").downcase
         newsletter_day = SiteSetting.weekly_newsletter_day.downcase
         return if current_day != newsletter_day
@@ -36,7 +38,7 @@ after_initialize do
         Rails.logger.info "Weekly Newsletter job running..."
 
         # get all posts created in the last week
-        posts = Post.where("posts.created_at >= ?", 1.week.ago)
+        posts = Post.where("posts.created_at >= ?", 1.week.ago).limit(10)
 
         # check if there are any posts
         if posts.empty?
@@ -52,12 +54,14 @@ after_initialize do
           .find_each do |user|
             next if not user.custom_fields[:receive_newsletter]
 
-            begin
-              WeeklyNewsletterMailer.newsletter(user, posts).deliver_now
-            rescue => e
-              Rails.logger.error "Error sending weekly newsletter: #{e.message}"
-            end
+          begin
+            WeeklyNewsletterMailer.newsletter(user, posts).deliver_now
+          rescue => e
+            Rails.logger.error "Error sending weekly newsletter: #{e.message}"
           end
+        end
+
+        Rails.logger.info "Weekly Newsletter job complete."
       end
     end
   end
