@@ -25,17 +25,16 @@ after_initialize do
     class WeeklyNewsletter < ::Jobs::Scheduled
       daily at: 3.hours
 
-      def execute(args)
-        puts "Weekly Newsletter job running..."
-        puts Rails.application.config.action_mailer.smtp_settings
+      def execute
+        # initialize logger
+        Rails.logger = Logger.new(STDOUT)
+
+        Rails.logger.info "Weekly Newsletter job running..."
+        Rails.logger.info Rails.application.config.action_mailer.smtp_settings
 
         current_day = Time.zone.now.strftime("%A").downcase
         newsletter_day = SiteSetting.weekly_newsletter_day.downcase
         return if current_day != newsletter_day
-
-        # initialize logger
-        Rails.logger = Logger.new(STDOUT)
-        Rails.logger.info "Weekly Newsletter job running..."
 
         # get all posts created in the last week
         posts = Post.where("posts.created_at >= ?", 1.week.ago).limit(10)
