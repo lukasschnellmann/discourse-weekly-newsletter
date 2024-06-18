@@ -34,7 +34,12 @@ after_initialize do
 
         current_day = Time.zone.now.strftime("%A").downcase
         newsletter_day = SiteSetting.weekly_newsletter_day.downcase
-        return if current_day != newsletter_day
+        if current_day != newsletter_day
+          Rails.logger.info(
+            "Not sending newsletter: Today is #{current_day}, but the newsletter is scheduled for #{newsletter_day}",
+          )
+          return
+        end
 
         # get all posts created in the last week
         posts = Post.where("posts.created_at >= ?", 1.week.ago).limit(10)
