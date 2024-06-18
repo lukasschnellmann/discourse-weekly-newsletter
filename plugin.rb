@@ -37,9 +37,7 @@ after_initialize do
         return if current_day != newsletter_day
 
         # get all posts created in the last week
-        posts = Post
-          .where("posts.created_at >= ?", 1.week.ago)
-          .limit(10)
+        posts = Post.where("posts.created_at >= ?", 1.week.ago).limit(10)
 
         # check if there are any posts
         if posts.empty?
@@ -55,12 +53,12 @@ after_initialize do
           .find_each do |user|
             next if not user.custom_fields[:receive_newsletter]
 
-          begin
-            WeeklyNewsletterMailer.newsletter(user, posts).deliver_now
-          rescue => e
-            Rails.logger.error "Error sending weekly newsletter: #{e.message}"
+            begin
+              WeeklyNewsletterMailer.newsletter(user, posts).deliver_now
+            rescue => e
+              Rails.logger.error "Error sending weekly newsletter: #{e.message}"
+            end
           end
-        end
 
         Rails.logger.info "Weekly Newsletter job complete."
       end
