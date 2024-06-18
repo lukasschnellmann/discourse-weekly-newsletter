@@ -13,6 +13,10 @@
       text-decoration: none;
     }
 
+    p {
+      margin: 0;
+    }
+
     .header {
       display: flex;
       justify-content: space-between;
@@ -26,28 +30,52 @@
     .wrapper {
       display: flex;
       flex-direction: column;
-      gap: 1em;
     }
 
     .list {
       display: flex;
       flex-direction: column;
-      gap: 5px;
     }
 
     .list-item {
       padding: 1em;
       background: #eee;
       border-radius: 8px;
+      margin-bottom: 0.25em;
+    }
+
+    .list-item:last-child {
+      margin-bottom: 1em;
+    }
+
+    .list-item .content {
+      display: flex;
+      margin: 1em 0;
+    }
+
+    .list-item .content a {
+      margin-left: 0.5em;
     }
 
     .heading {
       display: flex;
-      gap: 1em;
-      justify-content: space-between;
+      flex-direction: column;
+      border-bottom: 1px solid #ccc;
       margin-bottom: 1.25em;
       padding-bottom: 0.25em;
-      border-bottom: 1px solid #ccc;
+    }
+
+    .heading-row {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .heading-row:first-child {
+      align-items: flex-end;
+    }
+
+    .heading-row:last-child {
+      align-items: flex-start;
     }
 
     .heading h1 {
@@ -55,37 +83,29 @@
       font-size: 1.5em;
     }
 
-    .title > div {
-      display: inline-flex;
-      align-items: baseline;
-      gap: 0.33em;
-      margin-bottom: 0.5em;
+    .post-link {
+      text-decoration: none;
+      color: #000;
+    }
+      
+    .post-link:hover {
+        text-decoration: underline;
+    }
+
+    .category-container {
+      display: flex;
+      align-items: center;
     }
 
     .category-color {
       width: 10px;
       height: 10px;
+      margin-right: .25em;
     }
 
-    .category {
+    .category-name {
       font-size: 13px;
       color: #646464;
-    }
-
-    .post-link {
-      text-decoration: none;
-      color: #000;
-    }
-
-    .post-link:hover {
-      text-decoration: underline;
-    }
-
-    .timestamp {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 0.1em;
     }
 
     .date, .time {
@@ -110,10 +130,9 @@
       align-self: flex-end;
     }
 
-    .content {
+    .answer .content {
       display: flex;
       align-items: center;
-      gap: 0.5em;
     }
 
     .avatar, .avatar_sm {
@@ -139,6 +158,10 @@
     .read-more:hover {
       color: #cc0000;
     }
+
+    .unsubscribe {
+      margin-bottom: 0.75em;
+    }
   </style>
 </head>
 <body>
@@ -160,16 +183,16 @@
       <% @posts.each do |post| %>
         <div class="list-item">
           <div class="heading">
-            <div class="title">
+            <div class="heading-row">
               <h1><a class="post-link" href="<%= "#{@base_url}/t/#{post.topic.slug}/#{post.topic.id}/#{post.post_number}" %>"><%= post.topic.title %></a></h1>
-              <div>
-                <span class="category-color" style="background: #<%= post.topic.category.color %>"></span>
-                <span class="category"><%= post.topic.category.name %></span>
-              </div>
+              <div class="date"><%= post.created_at.strftime("%d.%m.%Y") %></div>
             </div>
-            <div class="timestamp">
-              <span class="date"><%= post.created_at.strftime("%d.%m.%Y") %></span>
-              <span class="time"><%= post.created_at.strftime("%H:%M") %></span>
+            <div class="heading-row">
+              <div class="category-container">
+                <div class="category-color" style="background: #<%= post.topic.category.color %>"></div>
+                <div class="category-name"><%= post.topic.category.name %></div>
+              </div>
+              <div class="time"><%= post.created_at.strftime("%H:%M") %></div>
             </div>
           </div>
           <!-- Answer -->
