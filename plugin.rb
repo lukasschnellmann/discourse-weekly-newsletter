@@ -37,7 +37,9 @@ after_initialize do
         return if current_day != newsletter_day
 
         # get all posts created in the last week
-        posts = Post.where("posts.created_at >= ?", 1.week.ago).limit(10)
+        posts = Post
+          .where("posts.created_at >= ?", 1.week.ago)
+          .limit(10)
 
         # check if there are any posts
         if posts.empty?
