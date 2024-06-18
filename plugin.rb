@@ -2,7 +2,7 @@
 
 # name: discourse-weekly-newsletter
 # about: A plugin to send weekly newsletters on a specific time and day of the week
-# version: 0.1
+# version: 1.0.0
 # authors: Lukas Schnellmann
 # url: https://github.com/lukasschnellmann/discourse-weekly-newsletter
 # required_version: 2.7.0
