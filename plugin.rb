@@ -25,7 +25,7 @@ after_initialize do
     class WeeklyNewsletter < ::Jobs::Scheduled
       daily at: 3.hours
 
-      def execute
+      def execute(args)
         # initialize logger
         Rails.logger = Logger.new(STDOUT)
 
