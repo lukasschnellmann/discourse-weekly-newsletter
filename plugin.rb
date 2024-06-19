@@ -2,7 +2,7 @@
 
 # name: discourse-weekly-newsletter
 # about: A plugin to send weekly newsletters on a specific time and day of the week
-# version: 1.0.0
+# version: 1.1.0
 # authors: Lukas Schnellmann
 # url: https://github.com/lukasschnellmann/discourse-weekly-newsletter
 # required_version: 2.7.0
@@ -13,19 +13,24 @@ module ::WeeklyNewsletter
   PLUGIN_NAME = "weekly_newsletter"
 end
 
-require_relative "lib/weekly_newsletter/engine"
-
-DiscoursePluginRegistry.serialized_current_user_fields << "receive_newsletter"
+DiscoursePluginRegistry.serialized_current_user_fields << 'receive_newsletter'
 
 after_initialize do
-  User.register_custom_field_type "receive_newsletter", :boolean
+  User.register_custom_field_type 'receive_newsletter', :boolean
   register_editable_user_custom_field :receive_newsletter
+
+  User.where("id > 0").find_each do |user|
+    user.custom_fields['receive_newsletter'] = true if user.custom_fields['receive_newsletter'].nil?
+    user.save!
+  end
 
   module ::Jobs
     class WeeklyNewsletter < ::Jobs::Scheduled
       daily at: 3.hours
 
       def execute(args)
+        return unless SiteSetting.weekly_newsletter_enabled
+
         # initialize logger
         Rails.logger = Logger.new(STDOUT)
         Rails.logger.info "Weekly Newsletter job running..."
