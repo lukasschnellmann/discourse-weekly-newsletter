@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ::WeeklyNewsletterMailer < ActionMailer::Base
-  default from: "info@geowebforum.ch"
+  default from: SiteSetting.notification_email
 
   def newsletter(user, posts)
     @user = user
