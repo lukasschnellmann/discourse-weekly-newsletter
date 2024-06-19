@@ -22,11 +22,16 @@ after_initialize do
   User
     .where("id > 0")
     .find_each do |user|
-      user.custom_fields["receive_newsletter"] = true if user.custom_fields[
-        "receive_newsletter"
-      ].nil?
-      user.save!
+      if user.custom_fields["receive_newsletter"].nil?
+        user.custom_fields["receive_newsletter"] = true
+        user.save!
+      end
     end
+
+  on :user_created do |user|
+    user.custom_fields["receive_newsletter"] = true
+    user.save!
+  end
 
   module ::Jobs
     class WeeklyNewsletter < ::Jobs::Scheduled
@@ -49,7 +54,13 @@ after_initialize do
         end
 
         # get all posts created in the last week
-        posts = Post.where("posts.created_at >= ?", 1.week.ago).limit(10)
+        # exclude posts that are not visible for a regular user
+        posts =
+          Post
+            .where("created_at >= ?", 1.week.ago)
+            .where("hidden = false")
+            .where("post_type = 1")
+            .order(created_at: :desc)
 
         # check if there are any posts
         if posts.empty?
