@@ -3,7 +3,7 @@
 class WeeklyNewsletterMailer < ActionMailer::Base
   default from: SiteSetting.notification_email
 
-  def newsletter(user, posts)
+  def send_email(user, posts)
     @user = user
     @posts = posts
     @base_url = Discourse.base_url
