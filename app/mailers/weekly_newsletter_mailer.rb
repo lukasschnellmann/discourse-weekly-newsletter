@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ::WeeklyNewsletterMailer < ActionMailer::Base
+class WeeklyNewsletterMailer < ActionMailer::Base
   default from: SiteSetting.notification_email
 
   def newsletter(user, posts)
