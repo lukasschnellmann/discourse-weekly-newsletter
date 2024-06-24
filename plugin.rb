@@ -61,6 +61,7 @@ after_initialize do
             .where("hidden = false")
             .where("post_type = 1")
             .order(created_at: :desc)
+            .limit(10)
 
         # check if there are any posts
         if posts.empty?
