@@ -78,7 +78,7 @@ after_initialize do
             next if not user.custom_fields[:receive_newsletter]
 
             begin
-              WeeklyNewsletterMailer.newsletter(user, posts).deliver_now
+              ::WeeklyNewsletterMailer.newsletter(user, posts).deliver_now
             rescue => e
               Rails.logger.error "Error sending weekly newsletter: #{e.message}"
             end
