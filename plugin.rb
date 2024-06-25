@@ -10,8 +10,10 @@
 enabled_site_setting :weekly_newsletter_enabled
 
 module ::WeeklyNewsletter
-  PLUGIN_NAME = "weekly_newsletter"
+  PLUGIN_NAME = "weekly-newsletter"
 end
+
+require_relative "lib/weekly_newsletter/engine"
 
 DiscoursePluginRegistry.serialized_current_user_fields << "receive_newsletter"
 
@@ -33,5 +35,5 @@ after_initialize do
     user.save!
   end
 
-  require_relative "app/jobs/weekly_newsletter_mail"
+  require_relative "app/jobs/weekly_newsletter/send_newsletter"
 end
