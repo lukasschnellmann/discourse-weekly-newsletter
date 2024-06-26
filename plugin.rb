@@ -34,6 +34,4 @@ after_initialize do
     user.custom_fields["receive_newsletter"] = true
     user.save!
   end
-
-  require_relative "app/jobs/weekly_newsletter/send_newsletter"
 end
