@@ -22,7 +22,13 @@ module ::WeeklyNewsletter
 
       # get all posts created in the last week
       # exclude posts that are not visible for a regular user
-      posts = Post.where("created_at >= ?", 1.week.ago).where("visible = true").where("post_type = 1").order(created_at: :desc).limit(10)
+      posts =
+        Post
+          .where("created_at >= ?", 1.week.ago)
+          .where("visible = true")
+          .where("post_type = 1")
+          .order(created_at: :desc)
+          .limit(10)
 
       # check if there are any posts
       if posts.empty? || posts.nil?
