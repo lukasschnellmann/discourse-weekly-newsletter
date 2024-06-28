@@ -18,13 +18,5 @@ require_relative "lib/weekly_newsletter/engine"
 DiscoursePluginRegistry.serialized_current_user_fields << "receive_newsletter"
 
 after_initialize do
-  User.register_custom_field_type "receive_newsletter", :boolean
-  register_editable_user_custom_field :receive_newsletter
-  
-  on :user_created do |user|
-    user.custom_fields["receive_newsletter"] = true
-    user.save!
-  end
-
   require_relative "app/jobs/weekly_newsletter/send_newsletter"
 end
