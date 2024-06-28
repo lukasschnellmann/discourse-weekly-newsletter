@@ -31,7 +31,7 @@ module ::WeeklyNewsletter
           .limit(10)
 
       # check if there are any posts
-      if posts.empty? || posts.nil?
+      if posts.empty?
         Rails.logger.info "Not sending newsletter: No recently created posts found for newsletter"
         return
       end
