@@ -15,8 +15,6 @@ end
 
 require_relative "lib/weekly_newsletter/engine"
 
-DiscoursePluginRegistry.serialized_current_user_fields << "receive_newsletter"
-
 after_initialize do
   require_relative "app/jobs/weekly_newsletter/send_newsletter"
 end
