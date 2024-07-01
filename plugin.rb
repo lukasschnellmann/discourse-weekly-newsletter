@@ -40,6 +40,11 @@ after_initialize do
         posts = Post.where("created_at >= ?", 1.week.ago)
         Rails.logger.info "Found #{posts.count} posts created in the last week!"
 
+        if posts.count == 0
+          Rails.logger.info "No posts found in the last week, not sending newsletter!"
+          return
+        end
+
         User.where("id > 0").find_each do |user|
           next if not user.custom_fields[:receive_newsletter]
 
