@@ -201,8 +201,7 @@
             <span class="name"><%= post.user.name.present? ? post.user.name : post.user.username %></span>
           </div>
           <div class="content">
-            <%= post.cooked.truncate(400, omission: '…').html_safe %>
-            <a class="read-more" href="<%= "#{@base_url}/t/#{post.topic.slug}/#{post.topic.id}/#{post.post_number}" %>">weiterlesen</a>
+            <%= post.cooked.truncate(400, omission: '… <a class="read-more" href="<%= "#{@base_url}/t/#{post.topic.slug}/#{post.topic.id}/#{post.post_number}" %>">weiterlesen</a>').html_safe %>
           </div>
         </div>
       <% end %>
