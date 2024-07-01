@@ -189,7 +189,7 @@
             </div>
             <div class="heading-row">
               <div class="category-container">
-                <div class="category-color"><%= post.topic.category.color %></div>
+                <div class="category-color" style="background: #<%= post.topic.category.color %>"></div>
                 <div class="category-name"><%= post.topic.category.name %></div>
               </div>
               <div class="time"><%= post.created_at.strftime("%H:%M") %></div>
