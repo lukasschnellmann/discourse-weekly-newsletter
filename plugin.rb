@@ -15,23 +15,43 @@ end
 
 require_relative "lib/weekly_newsletter/engine"
 
-DiscoursePluginRegistry.serialized_current_user_fields << "receive_newsletter"
-
 after_initialize do
-  User.register_custom_field_type "receive_newsletter", :boolean
-  register_editable_user_custom_field :receive_newsletter
+  module ::Jobs
+    class WeeklyNewsletter < ::Jobs::Scheduled
+      daily at: 3.hours
+  
+      def execute(args)
+        return unless SiteSetting.weekly_newsletter_enabled
+  
+        # initialize logger
+        Rails.logger = Logger.new(STDOUT)
+        Rails.logger.info "Weekly Newsletter job running..."
+  
+        current_day = Time.zone.now.strftime("%A").downcase
+        newsletter_day = SiteSetting.weekly_newsletter_day.downcase
+        if current_day != newsletter_day
+          Rails.logger.info(
+            "Not sending newsletter: Today is #{current_day}, but the newsletter is scheduled for #{newsletter_day}",
+          )
+          return
+        end
+  
+        # get all posts created in the last week
+        posts = Post.where("created_at >= ?", 1.week.ago)
+        Rails.logger.info "Found #{posts.count} posts created in the last week!"
 
-  User.where("id > 0").find_each do |user|
-    if user.custom_fields["receive_newsletter"].nil?
-      user.custom_fields["receive_newsletter"] = true
-      user.save!
+        User.where("id > 0").find_each do |user|
+          next if not user.custom_fields[:receive_newsletter]
+
+          begin
+            ::WeeklyNewsletter::NewsletterMailer.newsletter(user, posts).deliver_now
+          rescue => e
+            Rails.logger.error "Error sending weekly newsletter: #{e.message}"
+          end
+        end
+
+        Rails.logger.info "Weekly Newsletter job done!"
+      end
     end
-  end
-
-  on :user_created do |user|
-    user.custom_fields["receive_newsletter"] = true
-    user.save!
-  end
-
-  require_relative "app/jobs/weekly_newsletter/send_newsletter"
+  end  
 end
