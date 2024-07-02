@@ -15,7 +15,12 @@ end
 
 require_relative "lib/weekly_newsletter/engine"
 
+DiscoursePluginRegistry.serialized_current_user_fields << "receive_newsletter"
+
 after_initialize do
+  User.register_custom_field_type 'my_preference', :boolean
+  register_editable_user_custom_field :receive_newsletter
+
   User.where("id > 0").find_each do |user|
     if user.custom_fields[:receive_newsletter].nil?
       user.custom_fields[:receive_newsletter] = true
