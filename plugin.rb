@@ -55,7 +55,7 @@ after_initialize do
         end
   
         # get all posts created in the last week
-        posts = Post.where("created_at >= ?", 1.week.ago)
+        posts = Post.where("created_at >= ?", 1.week.ago).where(post_type: Post.types[:regular]).limit(10).order(created_at: :desc)
         Rails.logger.info "Found #{posts.count} posts created in the last week!"
 
         # do not send newsletter if no posts were found
